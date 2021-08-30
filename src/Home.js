@@ -112,7 +112,7 @@ const Home = () => {
     
                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 
-    const handleHeroi = (e) => {
+    const handleHeroi = () => {
         if(enableStart === 'none'){
             setEnableStart('block')
         } else {
@@ -215,7 +215,7 @@ const Home = () => {
     function displayItem(){
         console.log(`heroi length - ${heroi.length}`)
         console.log(`user = ${user}`)
-        if(heroi != '' && user < (heroi.length - 20) && maq < (heroi.length - 20)){
+        if(heroi != '' && user < (heroi.length - 20) || heroi != '' && maq < (heroi.length - 20)){
            
             return(
                 <>
@@ -366,7 +366,7 @@ const Home = () => {
                 </S.item>
                 </>
             )
-        } else if(heroi != '' && user > (heroi.length - 20) && maq > (heroi.length - 20)){            
+        } else if(heroi != '' && user >= (heroi.length - 20) || heroi != '' && maq >= (heroi.length - 20)){            
             setUser(Math.floor(Math.random() * heroi.length))
             setMaq(Math.floor(Math.random() * heroi.length))
             handleHeroi()
@@ -407,7 +407,7 @@ const Home = () => {
                     </Button>
 
                     <Button variant="contained" style={{display: enableRestart}} color="secondary" className={classes.margin} onClick={handleRestart}>
-                        Jogar Novamente
+                        Reiniciar
                     </Button>
                                         
                 </S.divSearch>
@@ -431,7 +431,7 @@ const Home = () => {
 
             <div style={{position: 'absolute', width:'100%', justifyContent: 'center', bottom: 0, height:'100%', display:displayResult, background:'rgba(0,0,0,.8'}}>
                 <img src={background} style={{ height:'80%', marginTop: 100, }}  />  
-                <span style={{display:resultTie,position: 'absolute', color: 'red', width: '70%', fontSize: '4rem', left: '45%', top:120}}>Tie</span>                   
+                <span style={{display:resultTie,position: 'absolute', color: 'red', width: '70%', fontSize: '4rem', left: '45%', top:120}}>TIE</span>                   
             </div>
         
         </S.container>
