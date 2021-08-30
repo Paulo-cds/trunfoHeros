@@ -6,10 +6,11 @@ export const container = styled.div`
     width: 100%;    
     //background-color: black;
     height: 100vh;
+    background-image: url('https://sites.psu.edu/mdb5548pb/wp-content/uploads/sites/38707/2016/01/Marvel_Wallpaper_Heroes_1.jpg');
     background-repeat: no-repeat;
     background-color: grey;
     background-position: center;
-    background-attachment: scroll;
+    
 `
 
 export const loader = styled.div`

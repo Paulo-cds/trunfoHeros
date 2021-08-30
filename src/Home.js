@@ -13,6 +13,7 @@ import FormLabel from '@material-ui/core/FormLabel'
 import Button from '@material-ui/core/Button'
 import winner from './images/WINNER.gif'
 import lost from './images/YouLost.gif'
+import empate from './images/empate.gif'
 
 import {     
     makeStyles,    
@@ -71,17 +72,19 @@ const Home = () => {
     const [itemMaq, setItemMaq] = useState('none')
     const [itemUser, setItemUser] = useState('block')
     const [result, setResult] = useState('')
-    const [user, setUser] = useState(0)
+    const [user, setUser] = useState(Math.floor(Math.random() * 200))
     const [pointsUser, setPointsUser] = useState(0)
     const [pointsMaq, setPointsMaq] = useState(0)
     const [rounds, setRounds] = useState(1)
-    const [maq,setMaq] = useState(1)
+    const [maq,setMaq] = useState(Math.floor(Math.random() * 200))
     const [cardUser, setCardUser] = useState()
     const [cardMaq, setCardMaq] = useState()
     const [displayRounds, setDisplayRounds] = useState('none')
     const letras = "ABCDEFGHIJKLMNOPQRSTUVYWXZ"
     const [search, setSearch] = useState('flex')
-    const [background, setBackground] = useState('https://sites.psu.edu/mdb5548pb/wp-content/uploads/sites/38707/2016/01/Marvel_Wallpaper_Heroes_1.jpg')
+    const [displayResult, setDisplayResult] = useState('none')
+    const [enableRestart, setEnableRestart] = useState('none')
+    const [background, setBackground] = useState('')
     
     const BorderLinearProgress = withStyles((theme) => ({
         root: {
@@ -161,20 +164,21 @@ const Home = () => {
         console.log(`user = ${e.target.value}`)
         if(e.target.value === 'null'){
             setCardUser(0)
-        } else if(e.target.value === 100) {
+        } else if(e.target.value === '100') {
             setCardUser(100)
         } else {
             setCardUser(e.target.value)
         }
         setEnableResult('block')
         //console.log(`Maquina = ${e.target.value}`)
+        console.log(heroi.length)
     }    
 
     const handleMaq = (e) => {
         console.log(`maquina = ${e}`)
         if(e === 'null'){
             setCardMaq(0)
-        } else if (e === 100){
+        } else if (e === '100'){
             setCardMaq(100)
         } else {
             setCardMaq(e)
@@ -186,19 +190,26 @@ const Home = () => {
         setItemMaq('none')
         setItemUser('none')
         setDisplayText('none')
-        setSearch('none')
+        setEnableFinal('none')
+        setDisplayResult('block')
+        setEnableRestart('block')
         if(pointsUser > pointsMaq){
             
             setBackground(winner)
         } else if(pointsUser < pointsMaq){
             setBackground(lost)
+        } else {
+            setBackground(empate)
         }
     }
 
-    
+    console.log(`user = ${user}`)
 
     function displayItem(){
-        if(heroi != ''){
+        console.log(`heroi length - ${heroi.length}`)
+        console.log(`user = ${user}`)
+        if(heroi != '' && user < (heroi.length - 20) && maq < (heroi.length - 20)){
+           
             return(
                 <>
                 <S.item style={{display:itemUser}}>
@@ -208,7 +219,7 @@ const Home = () => {
                         <S.listUl>
                             
                                 <li>
-                                    <h3>ID: {heroi[user].id} - Nome: {heroi[user].name}</h3>                    
+                                    <h3>{heroi[user].name}</h3>                    
                                 </li>
                                 <S.data>
                                     
@@ -217,7 +228,7 @@ const Home = () => {
                                     <FormControl component="fieldset" style={{width:'90%'}}>
                                     <FormLabel component="h4">Powerstats</FormLabel>
                                     <RadioGroup aria-label="gender" name="gender1" onChange={handleChange}>
-                                        <div style={{display:'flex', width:'100%', margin:10}}>
+                                        <div style={{display:'flex', width:'100%', margin:5}}>
                                             <FormControlLabel onChange={() => {handleMaq(heroi[maq].powerstats.intelligence)}} value={heroi[user].powerstats.intelligence != 'null' ? heroi[user].powerstats.intelligence : 0} control={<Radio />}  />
                                             <div style={{width: '80%'}}>
                                                 <span>Intelligence</span>
@@ -226,7 +237,7 @@ const Home = () => {
                                             </div>
                                         </div>
 
-                                        <div style={{display:'flex', width:'100%', margin:10}}>
+                                        <div style={{display:'flex', width:'100%', margin:5}}>
                                             <FormControlLabel onChange={() => {handleMaq(heroi[maq].powerstats.strength)}} value={heroi[user].powerstats.strength != 'null' ? heroi[user].powerstats.strength : 0} control={<Radio />}  />
                                             <div style={{width: '80%'}}>
                                                 <span>Strength</span>
@@ -235,7 +246,7 @@ const Home = () => {
                                             </div>
                                         </div>
 
-                                        <div style={{display:'flex', width:'100%', margin:10}}>
+                                        <div style={{display:'flex', width:'100%', margin:5}}>
                                             <FormControlLabel onChange={() => {handleMaq(heroi[maq].powerstats.speed)}} value={heroi[user].powerstats.speed != 'null' ? heroi[user].powerstats.speed : 0} control={<Radio />}  />
                                             <div style={{width: '80%'}}>
                                                 <span>Speed</span>
@@ -244,7 +255,7 @@ const Home = () => {
                                             </div>
                                         </div>
                                         
-                                        <div style={{display:'flex', width:'100%', margin:10}}>
+                                        <div style={{display:'flex', width:'100%', margin:5}}>
                                             <FormControlLabel onChange={() => {handleMaq(heroi[maq].powerstats.durability)}} value={heroi[user].powerstats.durability != 'null' ? heroi[user].powerstats.durability : 0} control={<Radio />}  />
                                             <div style={{width: '80%'}}>
                                                 <span>Durability</span>
@@ -253,7 +264,7 @@ const Home = () => {
                                             </div>
                                         </div>
 
-                                        <div style={{display:'flex', width:'100%', margin:10}}>
+                                        <div style={{display:'flex', width:'100%', margin:5}}>
                                             <FormControlLabel onChange={() => {handleMaq(heroi[maq].powerstats.combat)}} value={heroi[user].powerstats.combat != 'null' ? heroi[user].powerstats.combat : 0} control={<Radio />}  />
                                             <div style={{width: '80%'}}>
                                                 <span>Combat</span>
@@ -348,14 +359,22 @@ const Home = () => {
                 </S.item>
                 </>
             )
+        } else if(heroi != '' && user > (heroi.length - 20) && maq > (heroi.length - 20)){            
+            setUser(Math.floor(Math.random() * heroi.length))
+            setMaq(Math.floor(Math.random() * heroi.length))
+            handleHeroi()
         }
+    }
+
+    const handleRestart = () => {
+        window.location.reload()
     }
 
 
     
 
     return(
-        <S.container style={{backgroundImage: `url(${background})`}}>
+        <S.container>
             
             <S.card>
                 
@@ -383,6 +402,10 @@ const Home = () => {
                     <Button variant="contained" style={{display: enableFinal}} color="secondary" className={classes.margin} onClick={handleResultado}>
                         Resultado Final
                     </Button>
+
+                    <Button variant="contained" style={{display: enableRestart}} color="secondary" className={classes.margin} onClick={handleRestart}>
+                        Jogar Novamente
+                    </Button>
                                         
                 </S.divSearch>
 
@@ -398,9 +421,12 @@ const Home = () => {
                             
                     
                 {displayItem()}
+                
                  
                      
-            </S.card>                            
+            </S.card>       
+
+            <img src={background} style={{position: 'absolute', height:'100%', top:0, left:'32%', display:{displayResult}}} />                     
         
         </S.container>
     )
