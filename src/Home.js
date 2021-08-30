@@ -85,6 +85,7 @@ const Home = () => {
     const [displayResult, setDisplayResult] = useState('none')
     const [enableRestart, setEnableRestart] = useState('none')
     const [background, setBackground] = useState('')
+    const [resultTie,setResultTie] = useState('none')
     
     const BorderLinearProgress = withStyles((theme) => ({
         root: {
@@ -157,7 +158,8 @@ const Home = () => {
         setMaq(maq+2)
         setItemMaq('none')
         setDisplayText('none')
-        setEnableNext('none')              
+        setEnableNext('none') 
+        setDisplayText('none')          
     }
 
     const handleChange = (e) => {
@@ -191,7 +193,7 @@ const Home = () => {
         setItemUser('none')
         setDisplayText('none')
         setEnableFinal('none')
-        setDisplayResult('block')
+        setDisplayResult('flex')
         setEnableRestart('block')
         if(pointsUser > pointsMaq){
             
@@ -200,7 +202,12 @@ const Home = () => {
             setBackground(lost)
         } else {
             setBackground(empate)
+            setResultTie('block')
         }
+    }
+
+    const handleRestart = () => {
+        window.location.reload()
     }
 
     console.log(`user = ${user}`)
@@ -292,7 +299,7 @@ const Home = () => {
                 <S.listUl>
                     
                         <li>
-                            <h3>ID: {heroi[maq].id} - Nome: {heroi[maq].name}</h3>                    
+                            <h3>{heroi[maq].name}</h3>                    
                         </li>
                         <S.data>
                             
@@ -366,11 +373,7 @@ const Home = () => {
         }
     }
 
-    const handleRestart = () => {
-        window.location.reload()
-    }
-
-
+    
     
 
     return(
@@ -426,7 +429,10 @@ const Home = () => {
                      
             </S.card>       
 
-            <img src={background} style={{position: 'absolute', height:'100%', top:0, left:'32%', display:{displayResult}}} />                     
+            <div style={{position: 'absolute', width:'100%', justifyContent: 'center', bottom: 0, height:'100%', display:displayResult, background:'rgba(0,0,0,.8'}}>
+                <img src={background} style={{ height:'80%', marginTop: 100, }}  />  
+                <span style={{display:resultTie,position: 'absolute', color: 'red', width: '70%', fontSize: '4rem', left: '45%', top:120}}>Tie</span>                   
+            </div>
         
         </S.container>
     )

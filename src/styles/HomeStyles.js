@@ -49,27 +49,20 @@ export const spanRounds = styled.span`
 `
 
 export const divText = styled.div`        
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    align-items: center;    
-    padding: 5px;
-    background-color: rgba(255,255,255,.5);
-    //opacity: .4;    
-    color: black;
-    width: 50%;
-    height: 50%;
-    text-align: center;
     position: absolute;
-    z-index: 9;
+    background-color: rgba(255,255,255,.7);    
+    padding: 3px;
+    text-align: center;
+    color: black;
+    top: 90px;
+    z-index: 11;
 `
 
 export const spanSearch = styled.span`
     font-size: 2rem;
     text-align: center;
     text-shadow: 2px 2px 5px black;
-    color: black;
-    width: 50%;
+    color: black;    
     position: relative;
     vertical-align: middle;
     padding: .7rem;
