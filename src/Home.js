@@ -58,20 +58,11 @@ import {
         transition: theme.transitions.create(['border-color', 'box-shadow'])
     },
 
-    formControl:{        
-        
+    formControl:{                
         width: '100%',
         
     },
-    selectRounds:{
-        position: 'absolute',
-        top: '45%',
-        left: '44%',
-        background: 'rgba(255,255,255,.7)',
-        padding: 5,
-        width:  '12%',
-        alignItems: 'center',
-    }
+    
   }));
 
   
@@ -413,7 +404,7 @@ const Home = () => {
     return(
         <S.container>
 
-        <div className={classes.selectRounds} style={{display:selectRounds}}>
+        <S.selectRounds className={classes.selectRounds} style={{display:selectRounds}}>
             <h3>Selecione a quantidade de rounds</h3>
         <FormControl required className={classes.formControl} >
             <InputLabel id="demo-simple-select-required-label">Rounds</InputLabel>
@@ -440,7 +431,7 @@ const Home = () => {
             </Select>
             
         </FormControl>
-        </div>
+        </S.selectRounds>
             
             <S.card>
                 

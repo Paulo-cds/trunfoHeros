@@ -13,6 +13,26 @@ export const container = styled.div`
     
 `
 
+export const selectRounds = styled.div`
+    position: absolute;
+    top: 45%;
+    left: 44%;
+    background: rgba(255,255,255,.7);
+    padding: 5px;
+    width:  12%;
+    align-items: center;
+
+    @media(min-width:501px) and (max-width:768px){
+        width: 20%;
+        left: 40%;
+    }
+    
+    @media(max-width: 500px){
+        width: 35%;
+        left: 35%;
+    }
+`
+
 export const loader = styled.div`
     position: absolute;
     top: 40%;
