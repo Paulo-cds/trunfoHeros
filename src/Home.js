@@ -485,7 +485,7 @@ const Home = () => {
 
             <div style={{position: 'absolute', width:'100%', justifyContent: 'center', bottom: 0, height:'100%', display:displayResult, background:'rgba(0,0,0,.8'}}>
                 <img src={background} style={{ height:'80%', marginTop: 100, }}  />  
-                <span style={{display:resultTie,position: 'absolute', color: 'red', width: '70%', fontSize: '4rem', left: '45%', top:120}}>TIE</span>                   
+                <span style={{display:resultTie,position: 'absolute', color: 'red', width: '70%', fontSize: '4rem', left: '45%', top:120, fontWeight: '500'}}>DRAW</span>                   
             </div>
         
         </S.container>
