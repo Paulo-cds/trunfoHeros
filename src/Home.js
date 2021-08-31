@@ -14,6 +14,10 @@ import Button from '@material-ui/core/Button'
 import winner from './images/WINNER.gif'
 import lost from './images/YouLost.gif'
 import empate from './images/empate.gif'
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Select from '@material-ui/core/Select';
 
 import {     
     makeStyles,    
@@ -52,6 +56,21 @@ import {
           },
 
         transition: theme.transitions.create(['border-color', 'box-shadow'])
+    },
+
+    formControl:{        
+        
+        width: '100%',
+        
+    },
+    selectRounds:{
+        position: 'absolute',
+        top: '45%',
+        left: '44%',
+        background: 'rgba(255,255,255,.7)',
+        padding: 5,
+        width:  '12%',
+        alignItems: 'center',
     }
   }));
 
@@ -64,7 +83,7 @@ const Home = () => {
     const [heroi, setHeroi] = useState([])
     const [load, setLoad] = useState('none')
     const classes = useStyles()
-    const [enableStart, setEnableStart] = useState('block')
+    const [enableStart, setEnableStart] = useState('none')
     const [enableResult, setEnableResult] = useState('none')
     const [enableNext, setEnableNext] = useState('none')
     const [displayText, setDisplayText] = useState('none')
@@ -86,6 +105,9 @@ const Home = () => {
     const [enableRestart, setEnableRestart] = useState('none')
     const [background, setBackground] = useState('')
     const [resultTie,setResultTie] = useState('none')
+    const [change, setChange] = useState('block')
+    const [rodadas,setRodadas] = useState('')
+    const [selectRounds, setSelectRounds] = useState('block')
     
     const BorderLinearProgress = withStyles((theme) => ({
         root: {
@@ -99,6 +121,7 @@ const Home = () => {
           borderRadius: 5,
           backgroundColor: 'red',
         },
+        
       }))(LinearProgress);
     
 
@@ -124,6 +147,7 @@ const Home = () => {
         console.log(searchHero)        
         fetchData(searchHero)       
         setDisplayRounds('block')
+        setSelectRounds('none')
     }
 
     const handleResult = () =>{
@@ -140,12 +164,12 @@ const Home = () => {
         console.log(`Jogador = ${cardUser} - Maquina = ${cardMaq}`)
         setDisplayText('flex')    
         
-        
+        setChange('none')
         setEnableResult("none")        
         
         
         
-        if(rounds<5){
+        if(rounds<rodadas){
             setEnableNext('block')
         } else {
             setEnableFinal('block')
@@ -159,7 +183,12 @@ const Home = () => {
         setItemMaq('none')
         setDisplayText('none')
         setEnableNext('none') 
-        setDisplayText('none')          
+        setDisplayText('none')  
+        setChange('block')  
+        
+        if(pointsUser > (rodadas/2) || pointsMaq > (rodadas/2)){
+            handleResultado()
+        }
     }
 
     const handleChange = (e) => {
@@ -210,12 +239,17 @@ const Home = () => {
         window.location.reload()
     }
 
+    const handleRounds = (e) =>{
+        setRodadas(e.target.value)        
+        setEnableStart('block')
+    }
+
     console.log(`user = ${user}`)
 
     function displayItem(){
         console.log(`heroi length - ${heroi.length}`)
         console.log(`user = ${user}`)
-        if(heroi != '' && user < (heroi.length - 20) || heroi != '' && maq < (heroi.length - 20)){
+        if(heroi != '' && user < (heroi.length - 20) && maq < (heroi.length - 20)){
            
             return(
                 <>
@@ -236,47 +270,47 @@ const Home = () => {
                                     <FormLabel component="h4">Powerstats</FormLabel>
                                     <RadioGroup aria-label="gender" name="gender1" onChange={handleChange}>
                                         <div style={{display:'flex', width:'100%', margin:5}}>
-                                            <FormControlLabel onChange={() => {handleMaq(heroi[maq].powerstats.intelligence)}} value={heroi[user].powerstats.intelligence != 'null' ? heroi[user].powerstats.intelligence : 0} control={<Radio />}  />
+                                            <FormControlLabel style={{display:change}} onChange={() => {handleMaq(heroi[maq].powerstats.intelligence)}} value={heroi[user].powerstats.intelligence != 'null' ? heroi[user].powerstats.intelligence : 0} control={<Radio />}  />
                                             <div style={{width: '80%'}}>
                                                 <span>Intelligence</span>
                                             <BorderLinearProgress variant='determinate' value={heroi[user].powerstats.intelligence != 'null' ? heroi[user].powerstats.intelligence : 0}/> 
-                                            <S.spanBar >{heroi[user].powerstats.intelligence != 'null' ? heroi[user].powerstats.intelligence : 0}%</S.spanBar>
+                                            <S.spanBar >{heroi[user].powerstats.intelligence != 'null' ? heroi[user].powerstats.intelligence : 0}</S.spanBar>
                                             </div>
                                         </div>
 
                                         <div style={{display:'flex', width:'100%', margin:5}}>
-                                            <FormControlLabel onChange={() => {handleMaq(heroi[maq].powerstats.strength)}} value={heroi[user].powerstats.strength != 'null' ? heroi[user].powerstats.strength : 0} control={<Radio />}  />
+                                            <FormControlLabel style={{display:change}} onChange={() => {handleMaq(heroi[maq].powerstats.strength)}} value={heroi[user].powerstats.strength != 'null' ? heroi[user].powerstats.strength : 0} control={<Radio />}  />
                                             <div style={{width: '80%'}}>
                                                 <span>Strength</span>
                                             <BorderLinearProgress variant='determinate' value={heroi[user].powerstats.strength != 'null' ? heroi[user].powerstats.strength : 0}/> 
-                                            <S.spanBar >{heroi[user].powerstats.strength != 'null' ? heroi[user].powerstats.strength : 0}%</S.spanBar>
+                                            <S.spanBar >{heroi[user].powerstats.strength != 'null' ? heroi[user].powerstats.strength : 0}</S.spanBar>
                                             </div>
                                         </div>
 
                                         <div style={{display:'flex', width:'100%', margin:5}}>
-                                            <FormControlLabel onChange={() => {handleMaq(heroi[maq].powerstats.speed)}} value={heroi[user].powerstats.speed != 'null' ? heroi[user].powerstats.speed : 0} control={<Radio />}  />
+                                            <FormControlLabel style={{display:change}} onChange={() => {handleMaq(heroi[maq].powerstats.speed)}} value={heroi[user].powerstats.speed != 'null' ? heroi[user].powerstats.speed : 0} control={<Radio />}  />
                                             <div style={{width: '80%'}}>
                                                 <span>Speed</span>
                                             <BorderLinearProgress variant='determinate' value={heroi[user].powerstats.speed != 'null' ? heroi[user].powerstats.speed : 0}/> 
-                                            <S.spanBar >{heroi[user].powerstats.speed != 'null' ? heroi[user].powerstats.speed : 0}%</S.spanBar>
+                                            <S.spanBar >{heroi[user].powerstats.speed != 'null' ? heroi[user].powerstats.speed : 0}</S.spanBar>
                                             </div>
                                         </div>
                                         
                                         <div style={{display:'flex', width:'100%', margin:5}}>
-                                            <FormControlLabel onChange={() => {handleMaq(heroi[maq].powerstats.durability)}} value={heroi[user].powerstats.durability != 'null' ? heroi[user].powerstats.durability : 0} control={<Radio />}  />
+                                            <FormControlLabel style={{display:change}} onChange={() => {handleMaq(heroi[maq].powerstats.durability)}} value={heroi[user].powerstats.durability != 'null' ? heroi[user].powerstats.durability : 0} control={<Radio />}  />
                                             <div style={{width: '80%'}}>
                                                 <span>Durability</span>
                                             <BorderLinearProgress variant='determinate' value={heroi[user].powerstats.durability != 'null' ? heroi[user].powerstats.durability : 0}/> 
-                                            <S.spanBar >{heroi[user].powerstats.durability != 'null' ? heroi[user].powerstats.durability : 0}%</S.spanBar>
+                                            <S.spanBar >{heroi[user].powerstats.durability != 'null' ? heroi[user].powerstats.durability : 0}</S.spanBar>
                                             </div>
                                         </div>
 
                                         <div style={{display:'flex', width:'100%', margin:5}}>
-                                            <FormControlLabel onChange={() => {handleMaq(heroi[maq].powerstats.combat)}} value={heroi[user].powerstats.combat != 'null' ? heroi[user].powerstats.combat : 0} control={<Radio />}  />
+                                            <FormControlLabel style={{display:change}} onChange={() => {handleMaq(heroi[maq].powerstats.combat)}} value={heroi[user].powerstats.combat != 'null' ? heroi[user].powerstats.combat : 0} control={<Radio />}  />
                                             <div style={{width: '80%'}}>
                                                 <span>Combat</span>
                                             <BorderLinearProgress variant='determinate' value={heroi[user].powerstats.combat != 'null' ? heroi[user].powerstats.combat : 0}/> 
-                                            <S.spanBar >{heroi[user].powerstats.combat != 'null' ? heroi[user].powerstats.combat : 0}%</S.spanBar>
+                                            <S.spanBar >{heroi[user].powerstats.combat != 'null' ? heroi[user].powerstats.combat : 0}</S.spanBar>
                                             </div>
                                         </div>
                                         
@@ -313,7 +347,7 @@ const Home = () => {
                                     <div style={{width: '80%'}}>
                                         <span>Intelligence</span>
                                     <BorderLinearProgress variant='determinate' value={heroi[maq].powerstats.intelligence != 'null' ? heroi[maq].powerstats.intelligence : 0}/> 
-                                    <S.spanBar >{heroi[maq].powerstats.intelligence != 'null' ? heroi[maq].powerstats.intelligence : 0}%</S.spanBar>
+                                    <S.spanBar >{heroi[maq].powerstats.intelligence != 'null' ? heroi[maq].powerstats.intelligence : 0}</S.spanBar>
                                     </div>
                                 </div>
 
@@ -322,7 +356,7 @@ const Home = () => {
                                     <div style={{width: '80%'}}>
                                         <span>Strength</span>
                                     <BorderLinearProgress variant='determinate' value={heroi[maq].powerstats.strength != 'null' ? heroi[maq].powerstats.strength : 0}/> 
-                                    <S.spanBar >{heroi[maq].powerstats.strength != 'null' ? heroi[maq].powerstats.strength : 0}%</S.spanBar>
+                                    <S.spanBar >{heroi[maq].powerstats.strength != 'null' ? heroi[maq].powerstats.strength : 0}</S.spanBar>
                                     </div>
                                 </div>
 
@@ -331,7 +365,7 @@ const Home = () => {
                                     <div style={{width: '80%'}}>
                                         <span>Speed</span>
                                     <BorderLinearProgress variant='determinate' value={heroi[maq].powerstats.speed != 'null' ? heroi[maq].powerstats.speed : 0}/> 
-                                    <S.spanBar >{heroi[maq].powerstats.speed != 'null' ? heroi[maq].powerstats.speed : 0}%</S.spanBar>
+                                    <S.spanBar >{heroi[maq].powerstats.speed != 'null' ? heroi[maq].powerstats.speed : 0}</S.spanBar>
                                     </div>
                                 </div>
                                 
@@ -340,7 +374,7 @@ const Home = () => {
                                     <div style={{width: '80%'}}>
                                         <span>Durability</span>
                                     <BorderLinearProgress variant='determinate' value={heroi[maq].powerstats.durability != 'null' ? heroi[maq].powerstats.durability : 0}/> 
-                                    <S.spanBar >{heroi[maq].powerstats.durability != 'null' ? heroi[maq].powerstats.durability : 0}%</S.spanBar>
+                                    <S.spanBar >{heroi[maq].powerstats.durability != 'null' ? heroi[maq].powerstats.durability : 0}</S.spanBar>
                                     </div>
                                 </div>
 
@@ -349,7 +383,7 @@ const Home = () => {
                                     <div style={{width: '80%'}}>
                                         <span>Combat</span>
                                     <BorderLinearProgress variant='determinate' value={heroi[maq].powerstats.combat != 'null' ? heroi[maq].powerstats.combat : 0}/> 
-                                    <S.spanBar >{heroi[maq].powerstats.combat != 'null' ? heroi[maq].powerstats.combat : 0}%</S.spanBar>
+                                    <S.spanBar >{heroi[maq].powerstats.combat != 'null' ? heroi[maq].powerstats.combat : 0}</S.spanBar>
                                     </div>
                                 </div>
                                 
@@ -378,6 +412,35 @@ const Home = () => {
 
     return(
         <S.container>
+
+        <div className={classes.selectRounds} style={{display:selectRounds}}>
+            <h3>Selecione a quantidade de rounds</h3>
+        <FormControl required className={classes.formControl} >
+            <InputLabel id="demo-simple-select-required-label">Rounds</InputLabel>
+            <Select
+            labelId="demo-simple-select-required-label"
+            id="demo-simple-select-required"
+            value={rodadas}
+            onChange={handleRounds}
+            className={classes.selectEmpty}
+            >
+            <MenuItem value="">
+                <em>None</em>
+            </MenuItem>
+            <MenuItem value={1}>1</MenuItem>
+            <MenuItem value={2}>2</MenuItem>
+            <MenuItem value={3}>3</MenuItem>
+            <MenuItem value={4}>4</MenuItem>
+            <MenuItem value={5}>5</MenuItem>
+            <MenuItem value={6}>6</MenuItem>
+            <MenuItem value={7}>7</MenuItem>
+            <MenuItem value={8}>8</MenuItem>
+            <MenuItem value={9}>9</MenuItem>
+            <MenuItem value={10}>10</MenuItem>
+            </Select>
+            
+        </FormControl>
+        </div>
             
             <S.card>
                 
@@ -413,7 +476,7 @@ const Home = () => {
                 </S.divSearch>
 
                 <S.divRounds style={{display: displayRounds}}>
-                    <S.spanRounds>Rodada {rounds} de 10</S.spanRounds><br/>
+                    <S.spanRounds>Rodada {rounds} de {rodadas}</S.spanRounds><br/>
                     <S.spanRounds>Jogador = {pointsUser} pontos</S.spanRounds><br/>
                     <S.spanRounds>Maquina = {pointsMaq} pontos</S.spanRounds>
                 </S.divRounds>
